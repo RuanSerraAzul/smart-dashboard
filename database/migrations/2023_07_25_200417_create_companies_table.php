@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('commission_rate');
             $table->string('name');
             $table->timestamps();
+            
         });
     }
 
