@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sale extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'client_id',
@@ -18,17 +20,14 @@ class Sale extends Model
         'total_amount'
     ];
 
-
     protected $casts = [
-        'status' => status::class
+        'status' => Status::class
     ];
 
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
     }
-
-
 
     public function seller(): BelongsTo
     {
