@@ -10,7 +10,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         $query = DB::table('sales as s')
             ->join('sellers as sl', 'sl.id', '=', 's.seller_id')
@@ -22,21 +22,22 @@ return new class extends Migration
             ->selectRaw("
                 cp.name as company,
                 us.name as seller,
-                us.name as client,
+                uc.name as client,
                 ad.city,
                 ad.state,
                 s.sold_at,
-                s.status, 
+                s.status,
                 s.total_amount,
                 round(s.total_amount * cp.commission_rate / 100) as commission
             ")->toSql();
-
 
         DB::statement("CREATE MATERIALIZED VIEW sales_commission_view AS $query");
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
     public function down()
     {
